@@ -1,6 +1,13 @@
 package n1exercici1SamayoaS;
-
 import java.util.ArrayList;
+
+/*class VendaBuidaExeption extends Exception {
+	
+	public VendaBuidaExeption(String errorMessage)
+		  {	    
+			super(errorMessage);
+		  }
+}*/
 
 public class N1exercici1SamayoaS {
 
@@ -18,23 +25,15 @@ public class N1exercici1SamayoaS {
 		Producte P5 = new Producte("pan", 1.45);
 		listaInventario.add(P5);
 	
-		String ListaCompra [] = {"jabon","pan","pollo","cebolla"};
-		//String ListaCompra[] = {"ajo", "jamon"};
+		//String ListaCompra [] = {"jabon","pan","pollo","cebolla"};
+		String ListaCompra[] = {"ajo", "jamon"};
 	
 		buscarCesta(listaInventario, ListaCompra);
 		
-		try 
-		{
-			System.out.println("producto en oferta" +ListaCompra[4]);
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			System.out.println("Excepción Java: " +"\n" +"Producto no registrado");
-		}
 	}
 
 	public static void buscarCesta(ArrayList<Producte>listaInventario, String ListaCompra[]) {
-	
+		
 		double exe = 0;
 
 		for (int i = 0; i < ListaCompra.length; i++) {
@@ -43,7 +42,7 @@ public class N1exercici1SamayoaS {
 		
 			for (int id = 0; id<listaInventario.size() &&  !encontrado; id++) {
 
-				if(listaInventario.get(id).getNom().equalsIgnoreCase(ListaCompra[i])) {
+				if(listaInventario.get(id).getNom().equalsIgnoreCase(ListaCompra[i]))  {
 					Producte ticket = listaInventario.get(id);
 					exe = exe + ticket.getPreu();
 					Venda producto = new Venda(listaInventario, id);
@@ -53,11 +52,21 @@ public class N1exercici1SamayoaS {
 				}
 			}
 		}
-		if (exe==0)
-			System.out.println("“Per fer una venda primer has d’afegir productes!");
-		else			
-			System.out.println("el total de su compra es de: " +exe +"€");
 
+			if (exe>0)  			
+				System.out.println("el total de su compra es de: " +exe +"€");
+			else
+				try {
+					getMessage();
+				} catch (VendaBuidaExeption e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+		}	
+	
+	public static void getMessage() throws VendaBuidaExeption{
+		throw new VendaBuidaExeption("Per fer una venda primer has d’afegir productes");
 	}
-
 }
+
+
